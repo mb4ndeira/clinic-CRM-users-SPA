@@ -345,6 +345,11 @@ axobject-query@^2.2.0:
   resolved "https://registry.yarnpkg.com/axobject-query/-/axobject-query-2.2.0.tgz#943d47e10c0b704aa42275e20edf3722648989be"
   integrity sha512-Td525n+iPOOyUQIeBfcASuG6uJsDOITl7Mds5gFyerkWiX7qhUTdYUBlSgNMyVqtSJqwpt1kXGLdUt6SykLMRA==
 
+backpack.css@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/backpack.css/-/backpack.css-3.0.0.tgz#b59b55f8c69595a36270921eaf5b7a02cb51358b"
+  integrity sha512-rnmJ1wwZA4jGKPE6YT8KAtbRx2hILvZLYaSvwIZFnvDfDOiKze+htvUe6p0EgLWhkY8BWBXeO6yaGHa774McdA==
+
 balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.2.tgz#e83e3a7e3f300b34cb9d87f615fa0cbf357690ee"
