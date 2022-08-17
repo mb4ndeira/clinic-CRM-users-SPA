@@ -1,4 +1,5 @@
 import type { AppProps } from "next/app";
+import "backpack.css";
 
 import "../styles/globals.scss";
 
