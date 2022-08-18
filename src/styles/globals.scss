@@ -1,3 +1,52 @@
+@font-face {
+  font-family: Hero New;
+  src: url("../assets/fonts/hero-new/extrabold.woff") format("woff"),
+    url("../assets/fonts/hero-new/extrabold.otf") format("otf");
+  font-weight: bolder;
+}
+
+@font-face {
+  font-family: Hero New;
+  src: url("../assets/fonts/hero-new/bold.woff") format("woff"),
+    url("../assets/fonts/hero-new/bold.otf") format("otf");
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: Hero New;
+  src: url("../assets/fonts/hero-new/semibold.woff") format("woff"),
+    url("../assets/fonts/hero-new/semibold.otf") format("otf");
+  font-weight: 600;
+}
+
+@font-face {
+  font-family: Hero New;
+  src: url("../assets/fonts/hero-new/medium.woff") format("woff"),
+    url("../assets/fonts/hero-new/medium.otf") format("otf");
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: Hero New;
+  src: url("../assets/fonts/hero-new/regular.woff") format("woff"),
+    url("../assets/fonts/hero-new/regular.otf") format("otf");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: Hero New;
+  src: url("../assets/fonts/hero-new/light.woff") format("woff"),
+    url("../assets/fonts/hero-new/light.otf") format("otf");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Hero New;
+  src: url("../assets/fonts/hero-new/thin.woff") format("woff"),
+    url("../assets/fonts/hero-new/thin.otf") format("otf");
+  font-weight: lighter;
+}
+
 :root {
   --midnight-100: #1d1c2f;
   --midnight-50: #5b70ff;
