@@ -1,0 +1,47 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+  height: calc(40px + (25px * 2));
+  max-width: 1024px;
+
+  padding: 25px 30px;
+
+  @media (min-width: 768px) {
+    margin: 0 50px;
+
+    width: calc(100% - (50px * 2));
+
+    padding: 25px 0;
+  }
+
+  &__logo {
+    width: auto;
+    height: 40px;
+  }
+
+  &__log_out {
+    display: flex;
+    align-items: center;
+
+    height: 40px;
+
+    padding: 0 15px;
+    border: 2px solid var(--midnight-50);
+    border-radius: 04px;
+  }
+}
+
+.log_out__icon {
+  margin-left: 5px;
+  font-size: 16px;
+
+  color: var(--sea-50);
+}
+
+.log_out__text {
+  font-weight: 700;
+  color: var(--sea-50);
+}
