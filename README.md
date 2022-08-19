@@ -1,34 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# clinic-CRM-users-SPA
 
-## Getting Started
+This SPA is the users managing section of a clinical CRM. Built with [React](https://reactjs.org/) running [Next.js](https://nextjs.org/).
 
-First, run the development server:
+## Running Locally
+
+Currently this project can be downloaded and ran with one of the following methods:
+
+- Cloning github [repository](https://github.com/mb4ndeira/clinic-CRM-users-SPA)
+
+### Running from GitHub repository
+
+The service can also be downloaded as git repository to be managed and ran with a package manager (I used Yarn, but... Doesn't really matter, does it?):
+
+**Prerequisites**
+
+- [Node.js](https://nodejs.org/en/)
+- [NPM](https://www.npmjs.com/)
+- [Yarn](https://yarnpkg.com/) (Interchangeable)
+
+#### 1. Cloning the repository
 
 ```bash
-npm run dev
-# or
-yarn dev
+  git clone git@github.com:mb4ndeira/clinic-CRM-users-SPA.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+or download it with [degit](https://github.com/Rich-Harris/degit) (if you don't want it with the git folder).
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+```bash
+  npx degit git@github.com:mb4ndeira/clinic-CRM-users-SPA.git
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+#### 2. Installing dependencies
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Run the installing line of your dependency manager inside the downloaded folder.
 
-## Learn More
+```bash
+yarn
+```
 
-To learn more about Next.js, take a look at the following resources:
+#### 3. Running it with a script
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Run the service with one of the disponible scripts.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+**Build scripts**
 
-## Deploy on Vercel
+- Default: `build`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Start scripts**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Default: `start`
+- Development: `dev`
+
+```bash
+yarn $choosen_start_script
+```
+
+## License
+
+This repository is under a MIT license. For more details, check the [license](LICENSE.md) file.
