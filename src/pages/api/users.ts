@@ -1,4 +1,5 @@
 import { NextApiResponse, NextApiRequest } from "next";
+import crypto from "crypto";
 
 import fakeData from "../../../fake-data.json";
 
@@ -16,6 +17,11 @@ const getPicture = (
   pictures: Array<{ ID: string; source: string }>,
   pictureID: string
 ) => pictures.find((picture) => picture.ID === pictureID);
+
+const getRandomPicture = (
+  pictures: Array<{ ID: string; source: string }>,
+  pictureIndex: number
+) => pictures[pictureIndex];
 
 const returnItemsWithValueAppended = <T>(
   array: Array<T>,
@@ -53,6 +59,49 @@ export default async function handler(
   _req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (_req.method === "POST") {
+    const {
+      first_name: firstName,
+      last_name: lastName,
+      role,
+      status,
+      email,
+    } = JSON.parse(_req.body);
+
+    if (!firstName || !lastName || !role || !status || !email) {
+      return res
+        .status(400)
+        .json({ error: "Bad request", message: "Invalid user format" });
+    }
+
+    const randomPicture = getRandomPicture(
+      fakeData.pictures,
+      Math.floor(Math.random() * 14)
+    );
+
+    console.log({
+      ID: crypto.randomUUID(),
+      firstName,
+      lastName,
+      role,
+      status,
+      email,
+      picture: randomPicture,
+    });
+
+    const addedUser = {
+      ID: crypto.randomUUID(),
+      firstName,
+      lastName,
+      role,
+      status,
+      email,
+      picture: randomPicture,
+    };
+
+    return res.status(201).json(addedUser);
+  }
+
   const users = fakeData.users;
 
   const usersWithStatuses = returnItemsWithValueAppended(users, "status", () =>

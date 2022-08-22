@@ -121,8 +121,9 @@
 
   &__edition {
     display: flex;
-    align-items: center;
     justify-content: center;
+
+    position: relative;
 
     width: 100%;
   }
@@ -135,6 +136,8 @@
     align-items: center;
     justify-content: center;
 
+    position: relative;
+
     width: 100%;
     max-width: 1024px;
 
@@ -142,7 +145,9 @@
 
     @media (min-width: 768px) {
       grid-template-columns: repeat(3, 1fr);
+
       margin: 0 45px;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 
@@ -150,11 +155,15 @@
 
       border-bottom: none;
 >>>>>>> Stashed changes
+=======
+
+      width: calc(100% - (45px * 2));
+>>>>>>> 3132702 (feat: add user creation)
     }
   }
 
-  &__list_puller,
-  &__edition_puller {
+  &__right_puller,
+  &__left_puller {
     position: absolute;
     top: 0;
 
@@ -176,13 +185,15 @@
     }
   }
 
-  &__list_puller {
+  &__right_puller {
+    right: 0;
+
     @media (min-width: 768px) {
-      right: -47px;
+      right: 0px;
     }
   }
 
-  &__edition_puller {
+  &__left_puller {
     @media (min-width: 768px) {
       left: -47px;
     }
@@ -209,6 +220,229 @@
       font-size: 17px;
       color: white;
     }
+  }
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  max-width: 260px;
+
+  padding-top: 25px;
+
+  &__header,
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+  }
+
+  &__role,
+  &__role_selection {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  &__role_text {
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+
+  &__role_selection {
+    margin-top: 2px;
+    margin-left: 06px;
+
+    svg {
+      font-size: 18px;
+      color: var(--sea-50);
+
+      cursor: pointer;
+    }
+  }
+
+  &__role_title {
+    margin: 0 03px;
+
+    font-size: 1.6rem;
+    font-weight: 400;
+  }
+
+  &__buttons {
+    display: flex;
+  }
+
+  &__delete,
+  &__edit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 35px;
+    height: 35px;
+
+    border-radius: 4px;
+    border: 1px solid var(--sea-50);
+
+    > svg {
+      color: var(--sea-50);
+    }
+
+    &--active {
+      border: 2px solid var(--dandelion-100);
+
+      > svg {
+        color: var(--dandelion-100);
+      }
+    }
+  }
+
+  &__delete {
+    > svg {
+      font-size: 18px;
+    }
+  }
+
+  &__edit {
+    margin-left: 10px;
+
+    > svg {
+      font-size: 16px;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-gap: 20px;
+
+    margin-top: 20px;
+  }
+
+  &__names {
+    display: flex;
+    align-items: center;
+  }
+
+  &__first_name {
+    margin-right: 10px;
+  }
+
+  &__first_name,
+  &__last_name,
+  &__email {
+    display: flex;
+
+    min-width: calc((5px * 2) + 2ch);
+
+    border-radius: 4px;
+    border: 1px solid var(--midnight-100);
+
+    input {
+      width: calc(100% + (5px * 2));
+      max-width: 100%;
+
+      border: none;
+      outline: none;
+
+      font-size: 1.4rem;
+    }
+  }
+
+  &__email {
+    display: flex;
+    align-items: center;
+
+    border: none;
+
+    > input {
+      border-radius: 4px;
+      border: 1px solid var(--midnight-100);
+    }
+  }
+
+  &__active {
+    display: flex;
+    align-items: center;
+
+    border: none;
+
+    .form__checkbox {
+      display: flex;
+      align-items: center;
+
+      width: 15px;
+      height: 15px;
+
+      padding: 02px;
+      border-radius: 50%;
+      border: 1px solid var(--sea-50);
+    }
+
+    .form__checkbox_dot {
+      display: none;
+
+      width: 100%;
+      height: 100%;
+
+      background: var(--midnight-100);
+      border-radius: 50%;
+    }
+
+    .form__active_text {
+      margin-left: 05px;
+
+      font-size: 1.4rem;
+    }
+
+    &--active {
+      .form__checkbox {
+        border: 2px solid var(--mint-100);
+      }
+
+      .form__checkbox_dot {
+        display: flex;
+        background: var(--mint-100);
+      }
+
+      .form__active_text {
+        color: var(--mint-100);
+      }
+    }
+  }
+
+  &__add_button {
+    display: flex;
+    align-items: center;
+
+    height: 35px;
+
+    padding: 05px 07.5px;
+    border-radius: 4px;
+    border: 1px solid var(--sea-50);
+
+    > svg {
+      font-size: 18px;
+      color: var(--sea-50);
+    }
+
+    &--rejected {
+      border: 2px solid var(--sunset-100);
+
+      > svg {
+        font-size: 18px;
+        color: var(--sunset-100);
+      }
+    }
+  }
+
+  &__add_text {
+    margin-right: 05px;
+
+    font-size: 1.4rem;
   }
 }
 

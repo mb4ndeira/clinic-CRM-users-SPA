@@ -1,12 +1,18 @@
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import cN from "classnames";
+import { IconType } from "react-icons";
 import { FiPlus as Plus } from "react-icons/fi";
-import { IoChevronBack as Left } from "react-icons/io5";
+import {
+  IoChevronBack as Left,
+  IoChevronForward as Right,
+} from "react-icons/io5";
+import { IoMdGrid as Grid } from "react-icons/io";
 
 import Header from "../components/Header";
 import UserCard from "./_users/UserCard";
+import UserEditionForm from "./_users/UserEditionForm";
 
 import styles from "../styles/Users.module.scss";
 
@@ -15,10 +21,10 @@ import User, { Role } from "../types/User";
 type RolesID = "doctors" | "admins" | "accountants";
 
 const Users: NextPage = () => {
+  const usersInteractionsRef = useRef<HTMLDivElement>(null);
+
   const [users, setUsers] = useState<User[]>([]);
   const [selectedRole, setSelectedRole] = useState<RolesID>("doctors");
-
-  const usersInteractionsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     usersInteractionsRef.current?.children[0].classList.add(
@@ -68,15 +74,38 @@ const Users: NextPage = () => {
     );
   };
 
+  const InteractionPuller: React.FC<{
+    direction: "left" | "right";
+    from: Element | undefined;
+    to: Element | undefined;
+    Icon: IconType;
+  }> = React.memo(function InteractionPuller({ direction, from, to, Icon }) {
+    const toggleUsersView = (from: Element, to: Element) => {
+      from.classList.add(styles["--invisible"]);
+      to.classList.remove(styles["--invisible"]);
+    };
+
+    return (
+      <button
+        onPointerUp={() => from && to && toggleUsersView(from, to)}
+        className={
+          direction === "right"
+            ? styles.users__right_puller
+            : styles.users__left_puller
+        }
+      >
+        <div className={styles.users__puller_icons}>
+          <Icon />
+          {direction === "left" ? <Left /> : <Right />}
+        </div>
+      </button>
+    );
+  });
+
   const selectRole = (role: RolesID) => {
     if (selectedRole === role) return;
 
     setSelectedRole(role);
-  };
-
-  const toggleUsersView = (from: Element, to: Element) => {
-    from.classList.add(styles["--invisible"]);
-    to.classList.remove(styles["--invisible"]);
   };
 
   return (
@@ -106,27 +135,28 @@ const Users: NextPage = () => {
             ))}
         </div>
         <div ref={usersInteractionsRef} className={styles.users__interactions}>
-          <div className={styles.users__edition} />
+          <div className={styles.users__edition}>
+            <UserEditionForm
+              onAddition={(newUser) => setUsers([...users, newUser])}
+            />
+            <InteractionPuller
+              direction="right"
+              from={usersInteractionsRef.current?.children[0]}
+              to={usersInteractionsRef.current?.children[1]}
+              Icon={Grid}
+            />
+          </div>
           <div className={styles.users__list}>
             {filteredUsers &&
               filteredUsers.map((user) => (
                 <UserCard key={user.ID} user={user} />
               ))}
-            <button
-              onPointerUp={() =>
-                usersInteractionsRef.current?.children &&
-                toggleUsersView(
-                  usersInteractionsRef.current?.children[1],
-                  usersInteractionsRef.current?.children[0]
-                )
-              }
-              className={styles.users__edition_puller}
-            >
-              <div className={styles.users__puller_icons}>
-                <Plus />
-                <Left />
-              </div>
-            </button>
+            <InteractionPuller
+              direction="left"
+              from={usersInteractionsRef.current?.children[1]}
+              to={usersInteractionsRef.current?.children[0]}
+              Icon={Plus}
+            />
           </div>
         </div>
       </div>
