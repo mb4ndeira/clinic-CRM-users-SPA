@@ -47,22 +47,40 @@ const DeleteButton: React.FC = React.memo(function DeleteButton() {
 
 const UserEditionForm: React.FC<{
   user?: User | null;
+  onEdition: (user: User) => void;
   onAddition: (user: User) => void;
-}> = ({ user, onAddition }) => {
+}> = ({ user, onEdition, onAddition }) => {
   const addButtonRef = useRef(null);
+  const editButtonRef = useRef(null);
 
-  const [mode, setMode] = useState<"view" | "edition">();
-  const [userFirstName, setUserFirstName] = useState<string>(
-    user?.firstName || ""
-  );
-  const [userLastName, setUserLastName] = useState<string>(
-    user?.lastName || ""
-  );
+  const [mode, setMode] = useState<"view" | "edition">("view");
+  const [userFirstName, setUserFirstName] = useState<string>("");
+  const [userLastName, setUserLastName] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>(user?.email || "");
-  const [userStatus, setUserStatus] = useState<"active" | "inactive">(
-    user?.status || "inactive"
-  );
-  const [userRole, setUserRole] = useState<Role>(user?.role || "doctor");
+  const [userStatus, setUserStatus] = useState<"active" | "inactive">();
+  const [userRole, setUserRole] = useState<Role>("doctor");
+
+  useEffect(() => {
+    if (user === null) {
+      setUserFirstName("");
+      setUserLastName("");
+      setUserEmail("");
+      setUserRole("doctor");
+      setUserStatus("inactive");
+
+      return;
+    }
+
+    if (user) {
+      setUserFirstName(user.firstName);
+      setUserLastName(user.lastName);
+      setUserEmail(user.email);
+      setUserRole(user.role);
+      setUserStatus(user.status);
+    }
+
+    if (mode === "view" && user === null) setMode("edition");
+  }, [user, mode]);
 
   const roles: { title: string; role: Role; left: number; right: number }[] = [
     { title: "doctor", role: "doctor", left: 2, right: 1 },
@@ -84,13 +102,9 @@ const UserEditionForm: React.FC<{
     input.style.width = `calc((5px * 2) + ${length}ch + (1px * ${length}))`;
   };
 
-  const uponReject = (button: HTMLElement) => {
-    button.classList.add(styles["form__add_button--rejected"]);
+  const uponReject = (button: HTMLElement, className: string) => {
+    button.classList.add(className);
     button.focus();
-  };
-
-  const handleToggleEditMode = () => {
-    setMode(mode === "view" ? "edition" : "view");
   };
 
   const handleAddUser = async () => {
@@ -101,7 +115,8 @@ const UserEditionForm: React.FC<{
       !userRole ||
       !userStatus
     ) {
-      addButtonRef.current && uponReject(addButtonRef.current);
+      addButtonRef.current &&
+        uponReject(addButtonRef.current, styles["form__add_button--rejected"]);
 
       return;
     }
@@ -141,6 +156,67 @@ const UserEditionForm: React.FC<{
     onAddition(addedUser);
   };
 
+  const handleEditUser = async () => {
+    if (mode === "view") {
+      setMode("edition");
+
+      return;
+    }
+
+    if (
+      !userFirstName ||
+      !userLastName ||
+      !userEmail ||
+      !userRole ||
+      !userStatus
+    ) {
+      editButtonRef.current &&
+        uponReject(editButtonRef.current, styles["form__edit--rejected"]);
+
+      return;
+    }
+
+    const data = {
+      ID: user?.ID,
+      first_name: userFirstName,
+      last_name: userLastName,
+      email: userEmail,
+      role: userRole,
+      status: userStatus,
+      picture: user?.picture,
+    };
+
+    const editReponse: { user: User; message: string } | void = await fetch(
+      "/api/users",
+      {
+        method: "PUT",
+        body: JSON.stringify(data),
+      }
+    )
+      .then((response) =>
+        response.json().then((data) => ({
+          message: data.message as string,
+          user: { ...data } as User,
+        }))
+      )
+      .catch((error) => console.error(error));
+
+    const { user: editedUser, message } = editReponse as {
+      user: User;
+      message: string;
+    };
+
+    if (message && message === "E-mail already in use") {
+      editButtonRef.current &&
+        uponReject(editButtonRef.current, styles["form__edit--rejected"]);
+
+      return;
+    }
+
+    onEdition(editedUser);
+    setMode("view");
+  };
+
   return (
     <div className={cN(styles.form)}>
       <div className={styles.form__header}>
@@ -176,14 +252,16 @@ const UserEditionForm: React.FC<{
         </div>
         <div className={styles.form__buttons}>
           <DeleteButton />
+          {user && (
             <button
-            onPointerUp={handleToggleEditMode}
+              onPointerUp={handleEditUser}
               className={cN(styles.form__edit, {
                 [styles["form__edit--active"]]: mode === "edition",
               })}
             >
-            <Edit />
+              {mode === "edition" ? <Check /> : <Edit />}
             </button>
+          )}
         </div>
       </div>
       <div className={styles.form__body}>
@@ -192,6 +270,7 @@ const UserEditionForm: React.FC<{
             <input
               type="text"
               placeholder="First"
+              disabled={!!user && mode === "view"}
               value={userFirstName}
               onChange={(e) => {
                 setUserFirstName(e.target.value);
@@ -203,6 +282,7 @@ const UserEditionForm: React.FC<{
             <input
               type="text"
               placeholder="Last"
+              disabled={!!user && mode === "view"}
               value={userLastName}
               onChange={(e) => {
                 setUserLastName(e.target.value);
@@ -215,6 +295,7 @@ const UserEditionForm: React.FC<{
           <input
             type="email"
             placeholder="e-mail"
+            disabled={!!user && mode === "view"}
             value={userEmail}
             onChange={(e) => {
               setUserEmail(e.target.value);
@@ -230,22 +311,27 @@ const UserEditionForm: React.FC<{
             onPointerUp={() => {
               setUserStatus(userStatus === "active" ? "inactive" : "active");
             }}
+            disabled={!!user && mode === "view"}
           >
             <div className={styles.form__checkbox}>
               <div className={styles.form__checkbox_dot} />
             </div>
             <span className={styles.form__active_text}>Active</span>
           </button>
+
           <button
             ref={addButtonRef}
-            onClick={handleAddUser}
+            onPointerUp={handleAddUser}
+            disabled={!user || (!!user && mode === "view")}
             onBlur={(e) =>
               e.target.classList.contains(
                 styles["form__add_button--rejected"]
               ) &&
               e.target.classList.remove(styles["form__add_button--rejected"])
             }
-            className={styles.form__add_button}
+            className={cN(styles.form__add_button, [
+              styles["form__add_button--disabled"],
+            ])}
           >
             <span className={styles.form__add_text}>Add user</span>
             <Plus />

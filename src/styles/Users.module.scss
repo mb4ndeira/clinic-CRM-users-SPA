@@ -147,18 +147,12 @@
       grid-template-columns: repeat(3, 1fr);
 
       margin: 0 45px;
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-=======
 
       width: calc(100% - (45px * 2));
 
       border-bottom: none;
->>>>>>> Stashed changes
-=======
 
       width: calc(100% - (45px * 2));
->>>>>>> 3132702 (feat: add user creation)
     }
   }
 
@@ -189,7 +183,7 @@
     right: 0;
 
     @media (min-width: 768px) {
-      right: 0px;
+      right: 45px;
     }
   }
 
@@ -435,6 +429,15 @@
       > svg {
         font-size: 18px;
         color: var(--sunset-100);
+      }
+    }
+
+    &--disabled {
+      border: 1px solid gray;
+
+      > svg {
+        font-size: 18px;
+        color: gray;
       }
     }
   }

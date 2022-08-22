@@ -74,20 +74,14 @@ export default async function handler(
         .json({ error: "Bad request", message: "Invalid user format" });
     }
 
+    if (fakeData.users.some((user) => user.email === email)) {
+      return res.status(200).json({ message: "E-mail already in use" });
+    }
+
     const randomPicture = getRandomPicture(
       fakeData.pictures,
       Math.floor(Math.random() * 14)
     );
-
-    console.log({
-      ID: crypto.randomUUID(),
-      firstName,
-      lastName,
-      role,
-      status,
-      email,
-      picture: randomPicture,
-    });
 
     const addedUser = {
       ID: crypto.randomUUID(),
@@ -100,6 +94,52 @@ export default async function handler(
     };
 
     return res.status(201).json(addedUser);
+  }
+
+  if (_req.method === "PUT") {
+    const {
+      ID,
+      first_name: firstName,
+      last_name: lastName,
+      role,
+      status,
+      email,
+      picture,
+    } = JSON.parse(_req.body);
+
+    if (
+      !ID ||
+      !firstName ||
+      !lastName ||
+      !role ||
+      !status ||
+      !email ||
+      !picture
+    ) {
+      return res
+        .status(400)
+        .json({ error: "Bad request", message: "Invalid user format" });
+    }
+
+    if (
+      fakeData.users
+        .filter((user) => user.ID !== ID)
+        .some((user) => user.email === email)
+    ) {
+      return res.status(200).json({ message: "E-mail already in use" });
+    }
+
+    const editedUser = {
+      ID,
+      firstName,
+      lastName,
+      role,
+      status,
+      email,
+      picture,
+    };
+
+    return res.status(201).json(editedUser);
   }
 
   const users = fakeData.users;

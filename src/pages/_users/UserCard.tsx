@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/future/image";
 import cN from "classnames";
 
@@ -8,11 +8,11 @@ import styles from "../../styles/Users.module.scss";
 
 const UserCard: React.FC<{
   user: User;
-}> = ({ user }) => {
-  const [open, setOpen] = useState(false);
-
+  onSelection: () => void;
+  isActive: boolean;
+}> = ({ user, onSelection, isActive }) => {
   const handleActivation = () => {
-    setOpen(!open);
+    onSelection();
   };
 
   return (
@@ -24,7 +24,7 @@ const UserCard: React.FC<{
         {
           [styles["user--is_active"]]: user.status === "active",
         },
-        { [styles["user--open"]]: open }
+        { [styles["user--open"]]: isActive }
       )}
     >
       <div className={styles.user__picture_container}>

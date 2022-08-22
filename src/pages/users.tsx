@@ -25,6 +25,7 @@ const Users: NextPage = () => {
 
   const [users, setUsers] = useState<User[]>([]);
   const [selectedRole, setSelectedRole] = useState<RolesID>("doctors");
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   useEffect(() => {
     usersInteractionsRef.current?.children[0].classList.add(
@@ -137,6 +138,18 @@ const Users: NextPage = () => {
         <div ref={usersInteractionsRef} className={styles.users__interactions}>
           <div className={styles.users__edition}>
             <UserEditionForm
+              user={selectedUser}
+              onEdition={(newUser) => {
+                const indexToRemove: number = users.findIndex(
+                  (item) => item.ID === newUser.ID
+                );
+
+                setUsers([
+                  ...users.slice(0, indexToRemove),
+                  newUser,
+                  ...users.slice(indexToRemove + 1),
+                ]);
+              }}
               onAddition={(newUser) => setUsers([...users, newUser])}
             />
             <InteractionPuller
@@ -149,7 +162,20 @@ const Users: NextPage = () => {
           <div className={styles.users__list}>
             {filteredUsers &&
               filteredUsers.map((user) => (
-                <UserCard key={user.ID} user={user} />
+                <UserCard
+                  key={user.ID}
+                  isActive={selectedUser === user}
+                  user={user}
+                  onSelection={() => {
+                    if (selectedUser?.ID === user?.ID) {
+                      setSelectedUser(null);
+
+                      return;
+                    }
+
+                    setSelectedUser(user);
+                  }}
+                />
               ))}
             <InteractionPuller
               direction="left"
