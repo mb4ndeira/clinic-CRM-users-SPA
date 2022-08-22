@@ -2,6 +2,10 @@
 
 This SPA is the users managing section of a clinical CRM. Built with [React](https://reactjs.org/) running [Next.js](https://nextjs.org/).
 
+**Resources:**
+
+- [Deploy](https://clinic-crm-users-n3trgae9p-mb4ndeira.vercel.app/users)
+
 ## Running Locally
 
 Currently this project can be downloaded and ran with one of the following methods:
