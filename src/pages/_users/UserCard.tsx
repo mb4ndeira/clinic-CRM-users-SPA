@@ -17,20 +17,20 @@ const UserCard: React.FC<{
 
   return (
     <div
-      key={user.ID}
+      key={user?.ID}
       onPointerUp={handleActivation}
       className={cN(
         styles.user,
         {
-          [styles["user--is_active"]]: user.status === "active",
+          [styles["user--is_active"]]: user?.status === "active",
         },
         { [styles["user--open"]]: isActive }
       )}
     >
       <div className={styles.user__picture_container}>
         <Image
-          src={user.picture?.source}
-          alt={user.firstName + " " + user.lastName}
+          src={user?.picture?.source}
+          alt={user?.firstName + " " + user?.lastName}
           fill
           className={styles.user__picture}
         />
@@ -40,9 +40,9 @@ const UserCard: React.FC<{
         </div>
       </div>
       <h2 className={styles.user__name}>
-        {user.firstName + " " + user.lastName}
+        {user?.firstName + " " + user?.lastName}
       </h2>
-      <p className={styles.user__email}>{user.email}</p>
+      <p className={styles.user__email}>{user?.email}</p>
     </div>
   );
 };
