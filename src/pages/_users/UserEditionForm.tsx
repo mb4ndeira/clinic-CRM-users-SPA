@@ -122,11 +122,13 @@ const UserEditionForm: React.FC<{
     }
 
     const data = {
+      ID: user?.ID,
       first_name: userFirstName,
       last_name: userLastName,
       email: userEmail,
       role: userRole,
       status: userStatus,
+      picture: user?.picture,
     };
 
     const addResponse = await fetch("/api/users", {
